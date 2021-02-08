@@ -1,0 +1,19 @@
+{
+  "name": "vue-next-multiple-cli",
+  "version": "1.0.0",
+  "description": "webpack vue3 多页",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "webpack",
+    "vue3"
+  ],
+  "author": "zgcf",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.14.25",
+    "@types/webpack": "^4.41.26",
+    "@types/webpack-dev-server": "^3.11.1",
+    "typescript": "^4.1.3"
+  }
+}
