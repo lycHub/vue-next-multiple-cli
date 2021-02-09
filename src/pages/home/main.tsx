@@ -10,6 +10,7 @@ export default defineComponent({
       return (
         <div class="home">
           <h2 class="title">Home tsx working</h2>
+          <a href="./about.html">to about</a>
           <div class="image-box"></div>
           <p>image: </p>
           <img src={ImageB} />

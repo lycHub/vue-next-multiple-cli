@@ -11,7 +11,7 @@ export default {
     about: './src/pages/about/index.ts'
   },
   output: {
-    path: join(__dirname, 'dist'),
+    path: join(__dirname, '../dist'),
     filename: '[name].js'
   },
   resolve: {

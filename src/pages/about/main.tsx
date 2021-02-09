@@ -6,8 +6,9 @@ export default defineComponent({
   setup() {
     return () => {
       return (
-        <div class="home">
+        <div class="about">
           <h2 class="title">About tsx working</h2>
+          <a href="./home.html">to home</a>
           <div class="image-box"></div>
         </div>
       );
