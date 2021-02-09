@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --progress --config config/webpack.config.ts",
-    "build": "webpack --config config/index.ts"
+    "build": "webpack"
   },
   "keywords": [
     "webpack",

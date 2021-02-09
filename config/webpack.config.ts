@@ -1,8 +1,8 @@
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { join } from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { VueLoaderPlugin } from 'vue-loader';
 import webpack from 'webpack';
+import {generatePageList} from "./utils";
 
 export default {
   mode: 'development',
@@ -11,7 +11,7 @@ export default {
     about: './src/pages/about/index.ts'
   },
   output: {
-    path: join(__dirname, '../dist'),
+    path: join(__dirname, 'dist'),
     filename: '[name].js'
   },
   resolve: {
@@ -68,15 +68,6 @@ export default {
       "__VUE_OPTIONS_API__": true,
       "__VUE_PROD_DEVTOOLS__": false
     }),
-    new HtmlWebpackPlugin({
-      title: 'home',
-      template: './src/pages/home/index.html',
-      filename: 'home.html'
-    }),
-    new HtmlWebpackPlugin({
-      title: 'about',
-      template: './src/pages/about/index.html',
-      filename: 'about.html'
-    })
+    ...generatePageList()
   ]
 }
