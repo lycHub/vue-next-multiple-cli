@@ -4,8 +4,8 @@
   "description": "webpack vue3 多页",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --progress --config config/webpack.config.ts",
-    "build": "webpack"
+    "start": "webpack serve --progress --config config/index.ts",
+    "build": "webpack --env production --config config/index.ts"
   },
   "keywords": [
     "webpack",

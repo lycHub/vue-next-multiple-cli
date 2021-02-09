@@ -1,17 +1,15 @@
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { join } from 'path';
 import { VueLoaderPlugin } from 'vue-loader';
-import webpack from 'webpack';
+import webpack, {Configuration} from 'webpack';
 import {generatePageList} from "./utils";
 
 export default {
-  mode: 'development',
   entry: {
     home: './src/pages/home/index.ts',
     about: './src/pages/about/index.ts'
   },
   output: {
-    path: join(__dirname, 'dist'),
+    path: join(__dirname, '../dist'),
     filename: '[name].js'
   },
   resolve: {
@@ -19,10 +17,6 @@ export default {
     alias: {
       vue: "vue/dist/vue.esm-bundler.js"
     }
-  },
-  devServer: {
-    port: 9000,
-    index: 'home.html'
   },
   module: {
     rules: [
@@ -62,7 +56,6 @@ export default {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       "__VUE_OPTIONS_API__": true,
@@ -70,4 +63,4 @@ export default {
     }),
     ...generatePageList()
   ]
-}
+} as Configuration;
