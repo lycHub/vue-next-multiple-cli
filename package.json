@@ -1,5 +1,5 @@
 {
-  "name": "vue-next-multiple-cli",
+  "name": "{{projectName}}",
   "version": "1.0.0",
   "description": "webpack vue3 多页",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "webpack",
     "vue3"
   ],
-  "author": "zgcf",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.13",
