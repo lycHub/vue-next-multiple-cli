@@ -1,0 +1,26 @@
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+  module: {
+    rules: [
+      {
+        test: /\.(scss|sass)$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+      }
+    ]
+  },
+
+
+
+
+npm install copy-webpack-plugin --save-dev
+
+
+ new CopyPlugin({
+      patterns: [
+        { from: 'public',  to: 'public' }
+      ]
+    })
+
+
+
+
