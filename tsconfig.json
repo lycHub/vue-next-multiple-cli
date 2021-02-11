@@ -3,7 +3,6 @@
     "target": "es6",
     "strict": true,
     "sourceMap": true,
-    "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -11,8 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "lib": [
       "esnext",
-      "dom",
-      "dom.iterable",
       "scripthost"
     ]
   },
