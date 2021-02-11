@@ -1,6 +1,6 @@
 {
   "name": "vue-next-multiple-cli",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "vue-next mutiple cli",
   "main": "index.js",
   "dependencies": {
