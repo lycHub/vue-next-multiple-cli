@@ -3,11 +3,9 @@ import {promisify} from "util";
 import {readdirSync, readFileSync, statSync, writeFileSync} from 'fs';
 import { partition } from 'lodash';
 import template from 'art-template';
+import {recursiveDir} from "./src/utils";
 
-interface FileItem {
-  file: string;
-  isDir: boolean;
-}
+
 
 const downloadTemplate = promisify<string, string, { clone: boolean; }>(download);
 const projectName = 'temp';
@@ -34,19 +32,5 @@ if (allFiles.length) {
   // writeFileSync(pkgJson.file, newContent);
 }
 
-function recursiveDir(sourceDir: string) {
-  const res: FileItem[] = [];
-  function traverse(dir: string) {
-    readdirSync(dir).forEach((file: string) => {
-      const pathname = `${dir}/${file}`; // temp/.gitignore
-      const isDir = statSync(pathname).isDirectory();
-      res.push({ file: pathname, isDir });
-      if (isDir) {
-        traverse(pathname);
-      }
-    })
-  }
-  traverse(sourceDir);
-  return res;
-}
+
 

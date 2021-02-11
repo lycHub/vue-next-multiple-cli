@@ -1,5 +1,11 @@
 import ora from "ora";
 import chalk from "chalk";
+import {promisify} from "util";
+import download from "download-git-repo";
+import {recursiveDir} from "../utils";
+import { partition } from "lodash";
+import template from 'art-template';
+import {unlinkSync, writeFileSync} from "fs";
 
 interface CreateOptions {
   tool: 'webpack' | 'gulp',
@@ -7,14 +13,37 @@ interface CreateOptions {
   pkgTool: 'npm' | 'yarn';
 }
 
-export default function (projectName: string, options: CreateOptions) {
-  console.log('projectName', projectName);
-  console.log('options', options);
+const downloadTemplate = promisify<string, string, { clone: boolean; }>(download);
+
+const rule = template.defaults.rules[0];
+rule.test = new RegExp(rule.test.source.replace('<%', '<\\\?').replace('%>', '\\\?>'));
+
+export default async function (projectName: string, options: CreateOptions) {
   const spinner = ora(chalk.blue('初始化模版...')).start();
-  setTimeout(() => {
-    spinner.text = '正在下载...';
-  }, 2000);
-  setTimeout(() => {
-    spinner.succeed(chalk.green('模版初始化成功.'));
-  }, 5000);
+  try {
+  //   await downloadTemplate(
+  // 'direct:https://github.com/lycHub/vue-next-mutiple-template.git#' + options.tool,
+  //       projectName,
+  //       { clone: true }
+  //   );
+    const allFiles = recursiveDir(projectName);
+    // console.log('allFiles', allFiles);
+    if (allFiles.length) {
+      partition(allFiles, 'isDir')[1].forEach(item => {
+        if (!item.file.includes('assets')) {
+          const content = template(process.cwd() + '/' + item.file, { projectName });
+          let dest = item.file;
+          if (dest.includes('.art')) {
+            unlinkSync(dest);
+            dest = dest.replace(/\.art/, '');
+          }
+          writeFileSync(dest, content);
+        }
+      });
+      spinner.info('模版初始化成功');
+    }
+  } catch (error) {
+    spinner.fail('项目创建失败');
+    throw error;
+  }
 }
