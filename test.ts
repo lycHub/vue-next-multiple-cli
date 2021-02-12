@@ -1,15 +1,22 @@
 import template from 'art-template';
 import { kebabCase } from 'lodash';
 import { join } from 'path';
-import {writeFileSync} from "fs";
+import {outputFileSync} from "fs-extra";
 
 // add c compA // src/components/compA.vue
 // add c a/b/c/d/compA // src/a/b/c/d/compA.vue
 
 
-const name = 'compA'; // rootCls: comp-a
+const name = 'a/b/c/compAB'; // rootCls: comp-a
+let basePath = 'components';
+let trueName = name;
+const data = name.split('/');
+if (data.length > 1) {
+  trueName = data.pop()!;
+  basePath = data.join('/');
+}
 let suffix = '.vue';
-const isTsx = true;
+const isTsx = false;
 if (isTsx) {
   suffix = '.tsx';
 }
@@ -17,12 +24,10 @@ if (isTsx) {
 try {
   const content = template(
     join(__dirname, 'templates', 'component' + suffix),
-    { name, rootCls: kebabCase(name) }
+    { name: trueName, rootCls: kebabCase(trueName) }
   );
-  const dest = `src/components/${name}${suffix}`;
-  console.log('content', content);
-  console.log('dest', dest);
-  // writeFileSync(dest, content); components目录不存在
+  const dest = `src/${basePath}/${trueName}${suffix}`;
+  outputFileSync(dest, content);
 } catch (e) {
   throw e;
 }

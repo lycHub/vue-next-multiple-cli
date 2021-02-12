@@ -1,5 +1,6 @@
 import {CommandConstructor} from "commander";
 import addComponent from "./actions/addComponent";
+import addDirective from "./actions/addDirective";
 
 export default function (Command: CommandConstructor) {
   const generate = new Command('add');
@@ -9,10 +10,10 @@ export default function (Command: CommandConstructor) {
     .option('--tsx', 'Is tsx', false)
     .action(addComponent);
 
-  // generate
-  //   .command('d <name>')
-  //   .description('添加一个指令')
-  //   .action();
+  generate
+    .command('d <name>')
+    .description('添加一个指令')
+    .action(addDirective);
   //
   // generate
   //   .command('p <name>')
