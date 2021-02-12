@@ -1,18 +1,28 @@
-import inquirer from 'inquirer';
+import template from 'art-template';
+import { kebabCase } from 'lodash';
+import { join } from 'path';
+import {writeFileSync} from "fs";
 
-inquirer.prompt([
-  {
-    type: 'input',
-    name: 'name',
-    message: '请输入姓名'
-  },
-  {
-    type: 'list',
-    name: 'pkgTool',
-    choices: ['npm', 'yarn'],
-    default: 'npm',
-    message: 'npm or yarn'
-  }
-]).then(answers => {
-  console.log('answers', answers);
-})
+// add c compA // src/components/compA.vue
+// add c a/b/c/d/compA // src/a/b/c/d/compA.vue
+
+
+const name = 'compA'; // rootCls: comp-a
+let suffix = '.vue';
+const isTsx = true;
+if (isTsx) {
+  suffix = '.tsx';
+}
+
+try {
+  const content = template(
+    join(__dirname, 'templates', 'component' + suffix),
+    { name, rootCls: kebabCase(name) }
+  );
+  const dest = `src/components/${name}${suffix}`;
+  console.log('content', content);
+  console.log('dest', dest);
+  // writeFileSync(dest, content); components目录不存在
+} catch (e) {
+  throw e;
+}
