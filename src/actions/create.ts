@@ -5,6 +5,7 @@ import download from "download-git-repo";
 import {exec, hasYarn, recursiveDir} from "../utils";
 import { partition } from "lodash";
 import template from 'art-template';
+import inquirer from 'inquirer';
 import {unlinkSync, writeFileSync} from "fs";
 
 interface CreateOptions {
@@ -56,7 +57,19 @@ export default async function (projectName: string, options: CreateOptions) {
 
 
 async function installPkg(pkgTool: 'npm' | 'yarn', cwd: string) {
-  let tool = pkgTool || 'yarn';
+  let tool = pkgTool;
+  if (!tool) {
+    const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'pkgTool',
+        choices: ['npm', 'yarn'],
+        default: 'npm',
+        message: 'npm or yarn'
+      }
+    ]);
+    tool = answers.pkgTool;
+  }
   if (tool === 'yarn' && !hasYarn()) {
     console.log(chalk.red('请先安装yarn'));
   } else {
