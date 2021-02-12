@@ -2,7 +2,7 @@ import ora from "ora";
 import chalk from "chalk";
 import {promisify} from "util";
 import download from "download-git-repo";
-import {recursiveDir} from "../utils";
+import {exec, hasYarn, recursiveDir} from "../utils";
 import { partition } from "lodash";
 import template from 'art-template';
 import {unlinkSync, writeFileSync} from "fs";
@@ -41,9 +41,27 @@ export default async function (projectName: string, options: CreateOptions) {
         }
       });
       spinner.info('模版初始化成功');
+      if (options.install) {
+        installPkg(options.pkgTool, './' + projectName);
+      } else {
+
+      }
     }
   } catch (error) {
     spinner.fail('项目创建失败');
     throw error;
+  }
+}
+
+
+
+async function installPkg(pkgTool: 'npm' | 'yarn', cwd: string) {
+  let tool = pkgTool || 'yarn';
+  if (tool === 'yarn' && !hasYarn()) {
+    console.log(chalk.red('请先安装yarn'));
+  } else {
+    const spinner = ora(chalk.blue('正在安装依赖...')).start();
+    await exec(tool + ' install', { cwd });
+    spinner.succeed(chalk.green('项目创建成功'));
   }
 }

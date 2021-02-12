@@ -1,4 +1,5 @@
 import {readdirSync, statSync} from "fs";
+import execa from 'execa';
 
 interface FileItem {
   file: string;
@@ -21,4 +22,24 @@ function recursiveDir(sourceDir: string) {
   return res;
 }
 
-export { recursiveDir };
+
+function exec(command: string, options: execa.Options) {
+  return new Promise((resolve, reject) => {
+    const subProcess = execa.command(command, options);
+    subProcess.stdout!.pipe(process.stdout);
+    subProcess.stdout!.on('close', resolve);
+    subProcess.stdout!.on('error', reject);
+  });
+}
+
+
+function hasYarn(): boolean {
+  try {
+    execa.commandSync('yarn -v', { stdio: 'ignore' });
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export { recursiveDir, exec, hasYarn };
