@@ -10,7 +10,7 @@ import {unlinkSync, writeFileSync} from "fs";
 import {installQues, pkgToolQues} from "../inquirers";
 
 interface CreateOptions {
-  tool: 'webpack' | 'gulp',
+  tool: 'webpack' | 'gulp';
   install: boolean;
   pkgTool: 'npm' | 'yarn';
 }
