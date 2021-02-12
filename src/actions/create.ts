@@ -7,6 +7,7 @@ import { partition } from "lodash";
 import template from 'art-template';
 import inquirer from 'inquirer';
 import {unlinkSync, writeFileSync} from "fs";
+import {installQues, pkgToolQues} from "../inquirers";
 
 interface CreateOptions {
   tool: 'webpack' | 'gulp',
@@ -22,11 +23,11 @@ rule.test = new RegExp(rule.test.source.replace('<%', '<\\\?').replace('%>', '\\
 export default async function (projectName: string, options: CreateOptions) {
   const spinner = ora(chalk.blue('初始化模版...')).start();
   try {
-  //   await downloadTemplate(
-  // 'direct:https://github.com/lycHub/vue-next-mutiple-template.git#' + options.tool,
-  //       projectName,
-  //       { clone: true }
-  //   );
+    await downloadTemplate(
+  'direct:https://github.com/lycHub/vue-next-mutiple-template.git#' + options.tool,
+        projectName,
+        { clone: true }
+    );
     const allFiles = recursiveDir(projectName);
     // console.log('allFiles', allFiles);
     if (allFiles.length) {
@@ -42,10 +43,24 @@ export default async function (projectName: string, options: CreateOptions) {
         }
       });
       spinner.info('模版初始化成功');
+      const cwd = './' + projectName;
       if (options.install) {
-        installPkg(options.pkgTool, './' + projectName);
+        installPkg(options.pkgTool, cwd);
       } else {
-
+        const answers = await inquirer.prompt([
+          installQues,
+          {
+            ...pkgToolQues,
+            when(currentAnswers) {
+              return currentAnswers.install && !options.pkgTool;
+            }
+          }
+        ]);
+        if (answers.install) {
+          installPkg(answers.pkgTool || options.pkgTool, cwd);
+        } else {
+          console.log(chalk.green('项目创建成功'));
+        }
       }
     }
   } catch (error) {
@@ -59,15 +74,7 @@ export default async function (projectName: string, options: CreateOptions) {
 async function installPkg(pkgTool: 'npm' | 'yarn', cwd: string) {
   let tool = pkgTool;
   if (!tool) {
-    const answers = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'pkgTool',
-        choices: ['npm', 'yarn'],
-        default: 'npm',
-        message: 'npm or yarn'
-      }
-    ]);
+    const answers = await inquirer.prompt([pkgToolQues]);
     tool = answers.pkgTool;
   }
   if (tool === 'yarn' && !hasYarn()) {
