@@ -1,8 +1,12 @@
 {
   "name": "vue-next-multiple-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "vue-next mutiple cli",
   "main": "index.js",
+  "bin": {
+    "vmc": "index.js"
+  },
+  "files": ["templates", "dist", "index.js", "package.json", "readme.md"],
   "dependencies": {
     "art-template": "^4.13.2",
     "chalk": "^4.1.0",
