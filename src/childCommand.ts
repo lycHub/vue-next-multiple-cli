@@ -1,6 +1,7 @@
 import {CommandConstructor} from "commander";
 import addComponent from "./actions/addComponent";
 import addDirective from "./actions/addDirective";
+import addPage from "./actions/addPage";
 
 export default function (Command: CommandConstructor) {
   const generate = new Command('add');
@@ -14,11 +15,11 @@ export default function (Command: CommandConstructor) {
     .command('d <name>')
     .description('添加一个指令')
     .action(addDirective);
-  //
-  // generate
-  //   .command('p <name>')
-  //   .description('添加一个页面')
-  //   .action();
+
+  generate
+    .command('p <name>')
+    .description('添加一个页面')
+    .action(addPage);
 
   return generate;
 }

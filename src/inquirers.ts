@@ -13,4 +13,12 @@ const pkgToolQues = {
   message: 'npm or yarn ？'
 }
 
-export { installQues, pkgToolQues };
+const pageTypeQues = {
+  type: 'list',
+  name: 'pageType',
+  choices: ['webpack', 'gulp'],
+  default: 'webpack',
+  message: 'webpack or gulp ？'
+}
+
+export { installQues, pkgToolQues, pageTypeQues };
